@@ -2,6 +2,45 @@ import pandas as pd
 import numpy as np
 import pickle
 
+print("                            EL JUEGO                              ")
+print(" --------------------------------------------------------------------")
+print("   Ayuda                      Jugar                         Creditos")
+
+
+def menu_ini(op):
+    while op == False:
+        opcion_menu_ini=str(input("Elige una opcion: "))
+        opcion_menu_ini=opcion_menu_ini.lower()
+        if opcion_menu_ini!="ayuda" and opcion_menu_ini!="jugar" and opcion_menu_ini!="creditos":
+            print("Elige ayuda, jugar o creditos.")
+            return menu_ini(False)
+        elif opcion_menu_ini=="ayuda":
+            print("Instrucciones: Elige la opcion Jugar.\n Deberas completar las asignaciones que se te otorguen en cada nivel.\n Para ello eliges primero un jugador; ademas tendras acceso a una tienda,\n despues de completar cada nivel, donde podras comprar habilidades que te \n ayuden a vencer a tus oponentes.\n Sigue las instrucciones detalladas en cada nivel. Suerte!")
+            return menu_ini(False)
+        elif opcion_menu_ini=="creditos":
+            print("El menu principal y la tienda fueron hechos por Maria Renee Meza. \nLos personajes fueron creados por Angel Anariba.\nLas habilidades de los personajes y sus ataques por David Raudales y Abner Rivera.")
+            return menu_ini(False)
+        else:
+            return menu_ini(True)
+
+
+menu_ini(False)
+
+
+def new_or_load(op1):
+    while op1!=1 and op1!=2:
+        try:
+            opcion1=int(input("Desea 1) comenzar una nueva partida o 2) cargar una partida existente? "))
+        except ValueError:
+            print("Elija 1 o 2")
+            return(new_or_load(3))
+        return(opcion1)
+
+
+x=new_or_load(3)
+if x==1:
+    pass
+
 def game_over(estado_ganador,play):
     if estado_ganador:
         print("¿Te gustaría jugar de nuevo?\n1.Sí\n2.No")
