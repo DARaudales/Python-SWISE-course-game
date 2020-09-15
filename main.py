@@ -2,6 +2,22 @@ import pandas as pd
 import numpy as np
 from pprint import pprint
 
+nombres=["Ábner","Ángel","David","María"]
+hps=[36,36,36,36]
+cms=[0,0,0,0]
+car=[5,7,6,4]
+ints=[5,5,7,6]
+ens=[10,10,10,10]
+din=[50,50,50,50]
+nivel=[1,1,1,1]
+
+key_héroes = ["Nombre", "HP", "CM", "Carisma", "Inteligencia", "Energía", "Dinero", "Nivel"]
+value_héroes=[nombres, hps, cms, car, ints, ens, din, nivel ]
+dic_héroes= {key:value for key, value in zip(key_héroes,value_héroes)}
+
+
+df_héroes=pd.DataFrame(dic_héroes)
+print(df_héroes)
 
 print("Te damos la bienvenida a esta aventura.")
 print("En este juego, lucharás contra las fuerzas del mal para rescatar tu índice acaémico.")
@@ -19,21 +35,6 @@ while True:
     else:
       pass
 
-nombres=["Ábner","Ángel","David","María"]
-hps=[36,36,36,36]
-cms=[0,0,0,0]
-car=[5,7,6,4]
-ints=[5,5,7,6]
-ens=[10,10,10,10]
-din=[50,50,50,50]
-
-key_héroes = ["Nombre", "HP", "CM", "Carisma", "Inteligencia", "Energía", "Dinero", "Nivel"]
-value_héroes=[nombres, hps, cms, car, ints, ens, din, ]
-dic_héroes= {key:value for key, value in zip(key_héroes,value_héroes)}
-
-
-df_héroes=pd.DataFrame(dic_héroes)
-print(df_héroes)
 
 class Personaje:
 
@@ -58,17 +59,29 @@ class Héroe(Personaje):
                 "Carisma": df_héroes.Carisma[n],
                 "Inteligencia":df_héroes.Inteligencia[n],
                 "Energía": df_héroes.Energía[n],
-                "Dinero": df_héroes.Dinero[n]
+                "Dinero": df_héroes.Dinero[n],
+                "Nivel": df_héroes.Nivel[n]
                 } if stats is None else stats
 
+  def lvlup(self):
+    df_héroes.Carisma[n]+=0.5
+    df_héroes.Inteligencia[n]+=0.5
+    df_héroes.Energía[n]=10
+    df_héroes.Dinero[n]+=50
+    df_héroes.Nivel[n]+=1
+
+player=Héroe()
 Urrutia=Villano("Carlos Urrutia")
 Mark=Villano("Androide Mark III")
 
+player.lvlup()
+print(df_héroes)
 
 r1=np.random.randint(1,11)
 r2=np.random.randint(1,11)
 coeficientes = np.poly([r1,r2])
 f=np.poly1d(coeficientes)
+
 
 
 print(f"A ver si sabe factorizar, deme uno de los ceros de este polinomio:\n\n{f}")
