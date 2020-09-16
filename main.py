@@ -180,6 +180,10 @@ class Héroe(Personaje):
     values_equip=[]
     dic_act_equip={key:value for key, value in zip(keys_equip,values_equip)}
     self.act_equip_skills=pd.DataFrame(dic_act_equip)    
+    
+    keys_p_equip = ["Ítem", "Puntos", "Cansancio Aliviado"]
+    dic_pas_equip = {key: value for key, value in zip(keys_p_equip, values_equip)}
+    self.pas_equip_skills = pd.DataFrame(dic_pas_equip)
 
   def get_actskill(self, num_lista):
     print(f"Has obtenido la habilidad {df_skills_act.loc[num_lista,'Habilidad']}.")
@@ -191,18 +195,25 @@ class Héroe(Personaje):
     self.skills.append(df_skills_pas.loc[num_lista,'Ítem'])
     self.pas_skills = self.pas_skills.append(df_skills_pas.loc[num_lista], ignore_index=True)
   
-  def get_equip(self, num_lista):
+  def get_actequip(self, num_lista):
     self.skills.append(df_skills_act.loc[num_lista,'Habilidad'])
     self.act_equip_skills = self.act_skills.append(df_skills_act.loc[num_lista], ignore_index=True, sort=False)    
+
+  def get_pasequip(self, num_lista):
+    self.skills.append(df_skills_pas.loc[num_lista,'Ítem'])
+    self.pas_equip_skills = self.pas_skills.append(df_skills_pas.loc[num_lista], ignore_index=True, sort=False)  
   
-  
-  def equip_skill(self):
+  def equip_actskill(self):
     print("Selecciona las habilidades que deseas equipar.\nPara eso, ingresa el número de lista de la habilidad.")
     for i in range(6):
         n=int(input(f"Ingrese la {i+1}ra habilidad:"))
         self.get_equip(n)
-        
-        
+   
+  def equip_passkill(self):
+    print("Selecciona las pasivas habilidades que deseas equipar.\nPara eso, ingresa el número de lista de la habilidad.")
+    for i in range(2):
+        n=int(input(f"Ingrese la {i+1}ra habilidad:"))
+        self.get_equip(n)
 
   def cansancio(self,fatigue):
     self.cm+=fatigue
@@ -421,7 +432,7 @@ while play:
     print("###Usted está a punto de batallar, debe seleccionar las habilidades que desea usar###")
     print("###Puede elegir 6 de las siguientes opciones###")
     print(player.act_skills)
-    player.equip_skill()
+    player.equip_actskill()
     print("##Las habilidades que seleccionaste son##")
     print(player.act_equip_skills)
     
