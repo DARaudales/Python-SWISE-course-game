@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import pickle
 
-print("                            EL JUEGO                              ")
+print("                      LUCHANDO POR EL TÍTULO                         ")
 print(" --------------------------------------------------------------------")
 print("   Ayuda                      Jugar                         Creditos")
 
@@ -24,9 +24,6 @@ def menu_ini(op):
             return menu_ini(True)
 
 
-menu_ini(False)
-
-
 def new_or_load(op1):
     while op1!=1 and op1!=2:
         try:
@@ -37,11 +34,7 @@ def new_or_load(op1):
         return(opcion1)
 
 
-x=new_or_load(3)
-if x==1:
-    pass
-
-def game_over(estado_ganador,play):
+def game_over(estado_ganador):
     if estado_ganador:
         print("¿Te gustaría jugar de nuevo?\n1.Sí\n2.No")
         while True:
@@ -53,10 +46,10 @@ def game_over(estado_ganador,play):
                 if opción not in [1,2]:
                     pass
                 elif opción==1:
-                    play=True
+                    return True
                     break
                 else:
-                    play=False
+                    return False
                     break
 
     else:
@@ -95,7 +88,22 @@ dic_héroes= {key:value for key, value in zip(key_héroes,value_héroes)}
 df_héroes=pd.DataFrame(dic_héroes)
 df_héroes.Carisma=df_héroes.Carisma.astype(float)
 df_héroes.Inteligencia=df_héroes.Inteligencia.astype(float)
-print(df_héroes)
+
+
+nombre_skill=["Factorización", "Cambio de Variable", "Límites", "Integral Definida", "Factorización Salvaje",
+              "Cambio de Variale Turbio","Integral Definida", "Límites Multivariable", "Integración por Partes",
+              "Fracciones Parciales", "Sustitución Trigonométrica", "Potencias Trigonométricas", "Método de Discos",
+              "Tangente de Ángulos Medios", "Arandelas", "Cascarones Cilíndricos" ]
+daño=[1,1,4,4,5,5,5,20,25,30,25,20,20,30,30,30]
+cm_drain=[0,0,2,2,3,3,3,5,6,7,6,5,5,5,7,7]
+cm_give=[0,0,1,1,1,1,1,1,2,2,2,2,2,3,3,3]
+lvl=[1,1,2,2,2,2,2,2,3,3,3,3,3,4,4,4]
+
+key_skiils_act = ["Nombre", "Daño", "CM Héroe", "CM Villano", "Nivel Requerido"]
+value_skills_act = [nombre_skill, daño, cm_drain, cm_give, lvl]
+dic_skills_act = {key:value for key, value in zip(key_skiils_act,value_skills_act)}
+
+df_skills_act=pd.DataFrame(dic_skills_act)
 
 class Personaje:
 
@@ -124,10 +132,15 @@ class Héroe(Personaje):
                 "Dinero": df_héroes.Dinero[n],
                 "Nivel": df_héroes.Nivel[n]
                 } if stats is None else stats
-    self.skills=[]
+    
+    self.skills = []
 
   def get_skill(self, skill):
       self.skills.append(skill)
+
+  def equip_skill(self,otro):
+        pass
+
 
   def lvl_up(self):
     df_héroes.loc[n,"Carisma"]+=0.5
@@ -137,12 +150,16 @@ class Héroe(Personaje):
     self.replenish()
     self.__init__()
 
-  def replenish(self):
+  def replenish(self, elección=None):
       df_héroes.loc[n,"Energía"]=10
       df_héroes.loc[n, "HP"]=36
       df_héroes.loc[n, "CM"]=0
 
+menu_ini(False)
 play=True
+x=new_or_load(3)
+if x==1:
+    pass
 
 while play:
 
@@ -211,9 +228,12 @@ while play:
                     aprobado=True
                 else:
                     print(f"Mire, que la respuesta es {y} dice JAJA.")
+                    repitencias+=1
 
         if aprobado:
             print("Felicidades, siga estudiando, ahora se viene Cálculo I, métala con Donaire.")
+            player.get_skill("Factorización")
+            player.get_skill("Cambio de Variable")
             player.lvl_up()
         else:
             if repitencias==1:
@@ -222,10 +242,36 @@ while play:
                 print("Póngase las pilas, sólo una vez más puede llevar la clase.")
             else:
                 print("Pues, siempre puede irse a estudiar Admin.")
-                play=game_over(completado,play)
-
+                play=game_over(completado)
+'''
 #Parte 2: Donaire, Cálculo I
 #Parte 3: Urrutia, Cálculo II
     urrutia=Villano("Carlos Urrutia")
 #Parte 4: Mark, Batalla Final (Repo Cálculo II)
     mark=Villano("Androide Mark III")
+
+función batalla:
+
+1. Atacar
+    función atacar:
+        1. asdasd
+        2. asdasd
+        3. asdasd
+        4. asasdasd
+
+2. Usar ítem
+    función usar item:
+        1.asdsf
+        2.fgdfg
+        3.eigdfojgi
+        4.sofjsofj
+
+3. Rendirte
+    replenish
+    restar vida
+
+
+
+
+menú de ataques
+'''
