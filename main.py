@@ -130,7 +130,8 @@ class Héroe(Personaje):
                 "Inteligencia":df_héroes.Inteligencia[n],
                 "Energía": df_héroes.Energía[n],
                 "Dinero": df_héroes.Dinero[n],
-                "Nivel": df_héroes.Nivel[n]
+                "Nivel": df_héroes.Nivel[n],
+                "CM": df_héroes.CM[n]
                 } if stats is None else stats
     
     self.skills = []
@@ -140,7 +141,12 @@ class Héroe(Personaje):
 
   def equip_skill(self,otro):
         pass
-
+    
+  def cansancio(self,fatigue):
+      df_héroes.loc[n,"CM"]+=fatigue
+    
+  def compras(self,dinero):
+      df_héroes.loc[n,"Dinero"]+=-dinero
 
   def lvl_up(self):
     df_héroes.loc[n,"Carisma"]+=0.5
@@ -243,8 +249,35 @@ while play:
             else:
                 print("Pues, siempre puede irse a estudiar Admin.")
                 play=game_over(completado)
-'''
+
 #Parte 2: Donaire, Cálculo I
+    if player.stats["Nivel"]==2:          
+        print("Donaire:Buen día señor, bienvenido a la asignatura de calculo I, que bueno que la metió con el ingeniero. \n Vaya a darle like a Team Donaire en facebook.\n")
+        print("Donaire:Espero que haya aprendido mucho en 110, lo necesitará\n")
+        print("Donaire:Lo primero es que vaya a comprar la guía metodológica,solo vale L.25 no debería ser problema para usted\n")
+        print("Donaire:Con esta aprenderá a a calcular limites e integrales indefinidas\n")
+        print("Luego de caminar hasta la fotocopiadora del F1.... \n")
+        print("Vendedor:Por supuesto que tenemos la guía metódológica de Calculo I, pero no recuerdo cuanto costaba...¿Le dijo su profesor de casualidad? ")
+        precio=float(input("Sí, me dijo que costaban:"))
+        while(precio != 25):
+            if precio>25:
+                print("Vendedor: Mmmmm, no lo sé no creo que sean tan caras\n")
+                precio=int(input("Cierto, a lo mejor es:"))
+            elif precio<25:
+                print("Vendedor: Nambe, no son tan baratos, no se quiera pasar de listo\n")
+                precio=int(input("Disculpe, de verdad pensé que era ese. Ya recordé, era:"))
+            else:
+                print("Vendedor: Exacto, ese era el precio\n")
+                
+        print("####A desbloqueado limites e integral indefinida####")
+        print("##############Utilizó 25 de dinero##################\n")
+        player.get_skill("Límites")
+        player.get_skill("Integral Indefinida")
+        player.comprar(25)
+        print("Al siguiente día en clase...\n")
+        print("Donaire: ¡Que bien!, se nota que adquirió la guía metodológica")
+        
+'''
 #Parte 3: Urrutia, Cálculo II
     urrutia=Villano("Carlos Urrutia")
 #Parte 4: Mark, Batalla Final (Repo Cálculo II)
