@@ -135,21 +135,14 @@ class Héroe(Personaje):
   def get_skill(self, skill):
       self.skills.append(skill)
 
-<<<<<<< HEAD
-  def equip_skill(self,otro):
-        pass
-    
   def cansancio(self,fatigue):
       df_héroes.loc[n,"CM"]+=fatigue
     
   def compras(self,dinero):
       df_héroes.loc[n,"Dinero"]+=-dinero
-=======
+
   def equip_skill(self):
       print("Selecciona las habilidades que deseas equipar.\nPara eso, ingresa el número de lista de la habilidad.")
-
-
->>>>>>> 7c51886127f8bb32855713e365d49792ccc3eebf
 
   def lvl_up(self):
     self.stats["Carisma"]+=0.5
@@ -273,7 +266,6 @@ while play:
                 player.lvl_up()
 
             else:
-<<<<<<< HEAD
                 print("Pues, siempre puede irse a estudiar Admin.")
                 play=game_over(completado)
 
@@ -300,10 +292,50 @@ while play:
         print("##############Utilizó 25 de dinero##################\n")
         player.get_skill("Límites")
         player.get_skill("Integral Indefinida")
-        player.comprar(25)
+        player.compras(-25)
         print("Al siguiente día en clase...\n")
         print("Donaire: ¡Que bien!, se nota que adquirió la guía metodológica")
+        print("Donaire: Lo siguiente que deberá hacer es revisar mi canal de Youtube 'Team Donaire' \n")
+        print("Luego de pasar un tiempo viendo videos el cansancio mental subió...\n")
+        player.cansancio(20)
+        player.get_skill("Factorización Salvaje")
+        player.get_skill("Cambio de Variable Turbio")
+        print("Al siguiente día en clase...\n")
+        print("Donaire:Veo que aprendió mucho viendo los videos de Team Donaire, es tiempo de descansar un poco.\n")
+        print("Donaire:Hoy juega en la champions el barca, vea el partido y luego estará listo para aprender el segundo teorema fundamental del calculo\n")
+        print("Al llegar a casa...")
+        print("¿Desea ver el partido?")
+        vio_partido=input("Ingrese 'si' o 'no':")
         
+        if vio_partido=="si":
+            print("Que buen partido, el barca metió 2 goles")
+        
+        print("Al siguiente día....")
+        print("Donaire:¿Cómo está Señor? A ver si vió el partido ayer...")
+        goles=int(input("¿Cuántos goles metió el barca?:"))
+        if goles==2:
+            print("Donaire:Sí vió el partido, está listo para aprender el segundo teorema fundamental del calculo")
+            player.get_skill("Integral Definida")
+            print("Donaire:Está listo para calculo II señor, me temo que los maestros no serán tan amigables como yo")
+        else:
+            print("Donaire:Nambe señor, no vió el partido, le dije que necesitaba relajarse, vaya a comprar unos chicken fingers al CC")
+            print("Luego de caminar hasta el CC...")
+            print("Cubano: Hola chico, claro que tenemos los mejores chicken fingers, de L.70,L.100 y L.120")
+            print("Cubano: ¿Solo le quedan L.25? Bueno, supongo que le puedo vender un ala y 7 papas por eso")
+            comprar_fingers=input("¿Desea Aceptar? Ingrese 'si' o 'no':")
+            if comprar_fingers=="si":
+                player.compras(-25)
+                print(player.stats["Dinero"])
+            print("De vuelta en el aula de Donaire...")
+            print("Donaire:¿Comió señor? es necesario para aprender,muestreme su billetera a ver si uso su dinero en comida...")
+            if player.stats["Dinero"]==0:
+                print("Donaire:Muy bien señor, está listo para aprender el segundo teorema fundamental del calculo")
+                player.get_skill("Integral Definida")
+                print("Donaire:Está listo para calculo II señor, me temo que los maestros no serán tan amigables como yo")
+            else:
+                print("Donaire: Le dije que comiera señor, así no podrá comprender el segundo teorema fundamental del calculo, me temo que eso es todo")
+                play=game_over(completado)
+                
 '''
 #Parte 3: Urrutia, Cálculo II
     urrutia=Villano("Carlos Urrutia")
@@ -366,5 +398,4 @@ tienda(4) #devuelve una lista con habilidades pasivas
 #Parte 4: Mark, Batalla Final (Repo Cálculo II)
     mark=Villano("Androide Mark III")
 
-
-
+'''
