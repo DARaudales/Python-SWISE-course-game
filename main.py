@@ -269,6 +269,47 @@ while play:
                     print("Pues, siempre puede irse a estudiar Admin.")
                     play=game_over(completado)
 '''
+habilidades_pasivas=[]
+
+def verifica_dinero(n,compra):
+    if df_héroes.dinero[n]> df_tienda.Precio[compra]:
+        return True
+    else:
+        return False
+
+items = ["Baleadas", "Mirar su cuaderno", "Dormir"]
+precio_items = ["12", "25", "20"]
+descripcion = ["+3 HP", "+10 HP", "-10 CM (cansancio mental)"]
+
+dic_items = {"Items": items, "Precio": precio_items, "Descripcion": descripcion}
+df_tienda = pd.DataFrame(dic_items)
+
+def tienda(op2):
+    print("             Bienvenido a la tienda!           ")
+    print(df_tienda)
+    while op2!= 0 and op2!= 1 and op2!=2 and op2!=3:
+        try:
+            compra=int(input("Elige el numero del item que quieres comprar, si no deseas comprar escribe 3\n"))
+        except ValueError:
+            print("Ingresa 0, 1 ,2 o 3")
+            return tienda(4)
+        if compra==3:
+            pass
+        else:
+            ajusta_dinero=verifica_dinero(n,compra)
+            def agrega_items(ajusta_dinero):
+                if ajusta_dinero==False:
+                    print("No tienes suficiente dinero.")
+                    print(f"Tus items son {habilidades_pasivas}")
+                    return tienda(4)
+                else:
+                    print(f"Haz comprado {compra}")
+                    habilidades_pasivas.append(compra)
+                    print(f"Tus items son {habilidades_pasivas}")
+                    return habilidades_pasivas
+            agrega_items(ajusta_dinero)
+tienda(4) #devuelve una lista con habilidades pasivas
+
 #Parte 2: Donaire, Cálculo I
 #Parte 3: Urrutia, Cálculo II
     urrutia=Villano("Carlos Urrutia")
