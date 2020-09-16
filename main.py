@@ -268,7 +268,7 @@ while play:
                 else:
                     print("Pues, siempre puede irse a estudiar Admin.")
                     play=game_over(completado)
-'''
+
 habilidades_pasivas=[]
 
 def verifica_dinero(n,compra):
@@ -317,4 +317,4 @@ tienda(4) #devuelve una lista con habilidades pasivas
     mark=Villano("Androide Mark III")
 
 
-'''
+
