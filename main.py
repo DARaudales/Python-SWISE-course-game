@@ -135,10 +135,16 @@ class Personaje:
 
 class Villano(Personaje):
 
-  def __init__(self, nombre, denuncias=0,  hp=100):
+  def __init__(self, nombre, denuncias=0,  hp=100,stats=None):
     Personaje.__init__(self, nombre, hp)
     self.denuncias=denuncias
-
+    self.stats={
+                "HP": df_héroes.Carisma[n],
+                "CM":df_héroes.Inteligencia[n],
+                } if stats is None else stats
+    
+  
+  #def daño
 
 class Héroe(Personaje):
 
@@ -169,6 +175,11 @@ class Héroe(Personaje):
 
     dic_pase={key: value for key, value in zip(keys_p, values)}
     self.equipped_passkills=pd.DataFrame(dic_pase)
+    
+    keys_equip=["Habilidad", "Daño", "CM Héroe", "CM Villano"]
+    values_equip=[]
+    dic_act_equip={key:value for key, value in zip(keys_equip,values_equip)}
+    self.act_equip_skills=pd.DataFrame(dic_act_equip)    
 
   def get_actskill(self, num_lista):
     print(f"Has obtenido la habilidad {df_skills_act.loc[num_lista,'Habilidad']}.")
@@ -179,9 +190,19 @@ class Héroe(Personaje):
     print(f"Has obtenido la habilidad {df_skills_pas.loc[num_lista,'Ítem']}.")
     self.skills.append(df_skills_pas.loc[num_lista,'Ítem'])
     self.pas_skills = self.pas_skills.append(df_skills_pas.loc[num_lista], ignore_index=True)
-
+  
+  def get_equip(self, num_lista):
+    self.skills.append(df_skills_act.loc[num_lista,'Habilidad'])
+    self.act_equip_skills = self.act_skills.append(df_skills_act.loc[num_lista], ignore_index=True, sort=False)    
+  
+  
   def equip_skill(self):
     print("Selecciona las habilidades que deseas equipar.\nPara eso, ingresa el número de lista de la habilidad.")
+    for i in range(6):
+        n=int(input(f"Ingrese la {i+1}ra habilidad:"))
+        self.get_equip(n)
+        
+        
 
   def cansancio(self,fatigue):
     self.cm+=fatigue
@@ -202,12 +223,6 @@ class Héroe(Personaje):
     self.stats["Energía"]=10
     self.hp=36
     self.cm=0
-
-n=1
-player=Héroe()
-player.get_actskill(0)
-print(player.skills)
-print(player.act_skills)
 
 
 print("                      LUCHANDO POR EL TÍTULO                         ")
@@ -337,16 +352,16 @@ while play:
 
         print("Donaire:Buen día señor, bienvenido a la asignatura de calculo I, que bueno que la metió con el ingeniero. \n Vaya a darle like a Team Donaire en facebook.\n")
         print("Donaire:Espero que haya aprendido mucho en 110, lo necesitará\n")
-        print("Donaire:Lo primero es que vaya a comprar la guía metodológica,solo vale L.25 no debería ser problema para usted\n")
+        print("Donaire:Lo primero es que vaya a comprar la guía metodológica,solo vale L.75 no debería ser problema para usted\n")
         print("Donaire:Con esta aprenderá a a calcular limites e integrales indefinidas\n")
         print("Luego de caminar hasta la fotocopiadora del F1.... \n")
         print("Vendedor:Por supuesto que tenemos la guía metódológica de Calculo I, pero no recuerdo cuanto costaba...¿Le dijo su profesor de casualidad? ")
         precio=float(input("Sí, me dijo que costaban:"))
-        while(precio != 25):
-            if precio>25:
+        while(precio != 75):
+            if precio>75:
                 print("Vendedor: Mmmmm, no lo sé no creo que sean tan caras\n")
                 precio=int(input("Cierto, a lo mejor es:"))
-            elif precio<25:
+            elif precio<75:
                 print("Vendedor: Nambe, no son tan baratos, no se quiera pasar de listo\n")
                 precio=int(input("Disculpe, de verdad pensé que era ese. Ya recordé, era:"))
             else:
@@ -354,7 +369,7 @@ while play:
 
         player.get_actskill(2)
         player.get_actskill(3)
-        player.compras(-25)
+        player.compras(25)
         print("Al siguiente día en clase...\n")
         print("Donaire: ¡Que bien!, se nota que adquirió la guía metodológica")
         print("Donaire: Lo siguiente que deberá hacer es revisar mi canal de Youtube 'Team Donaire' \n")
@@ -386,24 +401,35 @@ while play:
             print("Cubano: ¿Solo le quedan L.25? Bueno, supongo que le puedo vender un ala y 7 papas por eso")
             comprar_fingers=input("¿Desea Aceptar? Ingrese 'si' o 'no':")
             if comprar_fingers=="si":
-                player.compras(-25)
+                player.compras(25)
                 print(player.stats["Dinero"])
             print("De vuelta en el aula de Donaire...")
             print("Donaire:¿Comió señor? es necesario para aprender,muestreme su billetera a ver si uso su dinero en comida...")
             if player.stats["Dinero"]==0:
                 print("Donaire:Muy bien señor, está listo para aprender el segundo teorema fundamental del calculo")
-                player.get_actskill("Integral Definida")
+                player.get_actskill(7)
                 print("Donaire:Está listo para calculo II señor, me temo que los maestros no serán tan amigables como yo")
             else:
                 print("Donaire: Le dije que comiera señor, así no podrá comprender el segundo teorema fundamental del calculo, me temo que eso es todo")
                 play=game_over(completado)
                 
-'''
+
 #Parte 3: Urrutia, Cálculo II
     urrutia=Villano("Carlos Urrutia")
+    print("Urrutia: Buen día, bienvenido a la asignatura de calculo II, mi nombre es Carlos Urrutia...¿Está listo para el examen?")
+    print("Urrutia. Es tiempo de que haga su examen...")
+    print("###Usted está a punto de batallar, debe seleccionar las habilidades que desea usar###")
+    print("###Puede elegir 6 de las siguientes opciones###")
+    print(player.act_skills)
+    player.equip_skill()
+    print("##Las habilidades que seleccionaste son##")
+    print(player.act_equip_skills)
+    
+
+    
 #Parte 4: Mark, Batalla Final (Repo Cálculo II)
     mark=Villano("Androide Mark III")
-
+'''
 
 habilidades_pasivas=[]
 
