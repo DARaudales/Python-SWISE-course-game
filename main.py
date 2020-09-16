@@ -86,7 +86,7 @@ df_héroes.Inteligencia=df_héroes.Inteligencia.astype(float)
 df_héroes.Dinero=df_héroes.Dinero.astype(float)
 
 
-nombre_skill=["Factorización", "Cambio de Variable", "Límites", "Integral Definida", "Factorización Salvaje",
+nombre_skill=["Factorización", "Cambio de Variable", "Límites", "Integral Indefinida", "Factorización Salvaje",
               "Cambio de Variale Turbio","Integral Definida", "Límites Multivariable", "Integración por Partes",
               "Fracciones Parciales", "Sustitución Trigonométrica", "Potencias Trigonométricas", "Método de Discos",
               "Tangente de Ángulos Medios", "Arandelas", "Cascarones Cilíndricos" ]
@@ -102,7 +102,7 @@ dic_skills_act = {key:value for key, value in zip(key_skills_act,value_skills_ac
 df_skills_act=pd.DataFrame(dic_skills_act)
 
 
-nombre_skill_pas=["'Mire su cuaderno'", "Guía Metodológica", "Fórmula del Haragán", "Pautas viejas",
+nombre_skill_pas=["'Mire su cuaderno'", "Guía Metodológica Calc II", "Fórmula del Haragán", "Pautas viejas",
                   "Tutorías", "Hacer curva", "Pagar para pasar"]
 hp_give=[0,0,0,0,15,25,36]
 cm_reduce=[10,20,20,30,25,0,100]
@@ -172,12 +172,12 @@ class Héroe(Personaje):
 
   def get_actskill(self, num_lista):
     print(f"Has obtenido la habilidad {df_skills_act.loc[num_lista,'Habilidad']}.")
-    self.skills.append(df_skills_act.loc[num_lista])
+    self.skills.append(df_skills_act.loc[num_lista,'Habilidad'])
     self.act_skills=self.act_skills.append(df_skills_act.loc[num_lista],ignore_index=True, sort=False)
 
   def get_passkill(self, num_lista):
     print(f"Has obtenido la habilidad {df_skills_pas.loc[num_lista,'Ítem']}.")
-    self.skills.append(skill)
+    self.skills.append(df_skills_pas.loc[num_lista,'Ítem'])
     self.pas_skills = self.pas_skills.append(df_skills_pas.loc[num_lista], ignore_index=True)
 
   def equip_skill(self):
@@ -203,6 +203,11 @@ class Héroe(Personaje):
     self.hp=36
     self.cm=0
 
+n=1
+player=Héroe()
+player.get_actskill(0)
+print(player.skills)
+print(player.act_skills)
 
 
 print("                      LUCHANDO POR EL TÍTULO                         ")
@@ -312,8 +317,8 @@ while play:
 
                 if aprobado:
                     print("Felicidades, siga estudiando, ahora se viene Cálculo I, métala con Donaire.")
-                    player.get_skill("Factorización")
-                    player.get_skill("Cambio de Variable")
+                    player.get_actskill(0)
+                    player.get_actskill(1)
                     player.lvl_up()
 
                 else:
@@ -347,16 +352,16 @@ while play:
             else:
                 print("Vendedor: Exacto, ese era el precio\n")
 
-        player.get_skill("Límites")
-        player.get_skill("Integral Indefinida")
+        player.get_actskill(2)
+        player.get_actskill(3)
         player.compras(-25)
         print("Al siguiente día en clase...\n")
         print("Donaire: ¡Que bien!, se nota que adquirió la guía metodológica")
         print("Donaire: Lo siguiente que deberá hacer es revisar mi canal de Youtube 'Team Donaire' \n")
         print("Luego de pasar un tiempo viendo videos el cansancio mental subió...\n")
         player.cansancio(20)
-        player.get_skill("Factorización Salvaje")
-        player.get_skill("Cambio de Variable Turbio")
+        player.get_actskill(4)
+        player.get_actskill(5)
         print("Al siguiente día en clase...\n")
         print("Donaire:Veo que aprendió mucho viendo los videos de Team Donaire, es tiempo de descansar un poco.\n")
         print("Donaire:Hoy juega en la champions el barca, vea el partido y luego estará listo para aprender el segundo teorema fundamental del calculo\n")
@@ -372,7 +377,7 @@ while play:
         goles=int(input("¿Cuántos goles metió el barca?:"))
         if goles==2:
             print("Donaire:Sí vió el partido, está listo para aprender el segundo teorema fundamental del calculo")
-            player.get_skill("Integral Definida")
+            player.get_actskill(6)
             print("Donaire:Está listo para calculo II señor, me temo que los maestros no serán tan amigables como yo")
         else:
             print("Donaire:Nambe señor, no vió el partido, le dije que necesitaba relajarse, vaya a comprar unos chicken fingers al CC")
@@ -387,13 +392,13 @@ while play:
             print("Donaire:¿Comió señor? es necesario para aprender,muestreme su billetera a ver si uso su dinero en comida...")
             if player.stats["Dinero"]==0:
                 print("Donaire:Muy bien señor, está listo para aprender el segundo teorema fundamental del calculo")
-                player.get_skill("Integral Definida")
+                player.get_actskill("Integral Definida")
                 print("Donaire:Está listo para calculo II señor, me temo que los maestros no serán tan amigables como yo")
             else:
                 print("Donaire: Le dije que comiera señor, así no podrá comprender el segundo teorema fundamental del calculo, me temo que eso es todo")
                 play=game_over(completado)
                 
-
+'''
 #Parte 3: Urrutia, Cálculo II
     urrutia=Villano("Carlos Urrutia")
 #Parte 4: Mark, Batalla Final (Repo Cálculo II)
@@ -445,6 +450,6 @@ def tienda(op2):
 #Parte 3: Urrutia, Cálculo II
     urrutia=Villano("Carlos Urrutia")
 #Parte 4: Mark, Batalla Final (Repo Cálculo II)
-    mark=Villano("Androide Mark III")
-
+    mark=Villano("Androide Mark")
+'''
 
