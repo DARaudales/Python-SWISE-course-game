@@ -143,14 +143,17 @@ class Personaje:
 
 class Villano(Personaje):
 
-  def __init__(self, nombre, denuncias=0,  hp=100,stats=None):
+  def __init__(self, nombre, denuncias=0, hp=100,cm=0,stats=None):
     Personaje.__init__(self, nombre, hp)
     self.denuncias=denuncias
     self.hp=hp
+    self.cm=cm
     
-  #def recibir_daño(n):
-    #self.hp+=-n
-      
+  def recibir(self,daño,CM):
+    self.hp+=-1*daño
+    self.cm+=CM    
+    print(f"EL VILLANO TIENE {self.hp} DE HP Y {self.cm} DE CANSANCIO MENTAL")
+
       
   #def daño
 
@@ -453,10 +456,13 @@ while play:
     print("-------------COMIENZA LA BATALLA---------------")
     print("-----------------------------------------------")
     while(player.stats["HP"]>0):
-        print(f"TIENE {player.stats['HP']} de HP")
-        xd= np.random.random_integers(0,4)
+        xd= np.random.random_integers(0,3+1)
         player.recibir_ataque(xd)
-    
+        print(f"TIENE {player.stats['HP']} DE HP \n")
+        print(player.act_equip_skills)
+        ataque=int(input("Elija un ataque:"))
+        urrutia.recibir(player.act_equip_skills.loc[ataque,"Daño"],player.act_equip_skills.loc[ataque,"Daño"])
+    print("_______URRUTIA TE HA DERROTADO_______")   
 
     
 #Parte 4: Mark, Batalla Final (Repo Cálculo II)
