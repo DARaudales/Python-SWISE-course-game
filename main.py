@@ -67,7 +67,7 @@ def game_over(estado_ganador):
 #Variables Globales
 
 nombres=["Ábner","Ángel","David","María"]
-hps=[36,36,36,36]
+hps=[100,100,100,100]
 cms=[0,0,0,0]
 car=[5,7,6,4]
 ints=[5,5,7,6]
@@ -84,6 +84,7 @@ df_héroes=pd.DataFrame(dic_héroes)
 df_héroes.Carisma=df_héroes.Carisma.astype(float)
 df_héroes.Inteligencia=df_héroes.Inteligencia.astype(float)
 df_héroes.Dinero=df_héroes.Dinero.astype(float)
+df_héroes.HP=df_héroes.HP.astype(float)
 
 
 nombre_skill=["Factorización", "Cambio de Variable", "Límites", "Integral Indefinida", "Factorización Salvaje",
@@ -117,6 +118,14 @@ df_skills_pas=pd.DataFrame(dic_skills_pas)
 df_skills_pas.Precio_Base=df_skills_pas.Precio_Base.astype(float)
 df_skills_pas.Precio_Real=df_skills_pas.Precio_Real.astype(float)
 
+
+ataques_villanos=["Examen Sorpresa","Límites fumados","fracciones demoníacas","Gancho Integrado Múltiple","Sólidos Revueltos"]
+daño_villanos=[8,8,12,10,10]
+CM_efectuado=[6,12,30,16,16]
+
+key_ataques=["Nombre", "Daño", "CM"]
+value_ataques=[ataques_villanos, daño_villanos, CM_efectuado]
+dic_ataques={key:value for key, value in zip(key_ataques, value_ataques)}
 '''
 print (df_héroes)
 print (df_skills_act)
@@ -124,7 +133,6 @@ print(df_skills_pas)'''
 
 
 #Clases
-
 class Personaje:
 
   def __init__(self, nombre, hp, cm=0):
@@ -138,25 +146,27 @@ class Villano(Personaje):
   def __init__(self, nombre, denuncias=0,  hp=100,stats=None):
     Personaje.__init__(self, nombre, hp)
     self.denuncias=denuncias
-    self.stats={
-                "HP": df_héroes.Carisma[n],
-                "CM":df_héroes.Inteligencia[n],
-                } if stats is None else stats
+    self.hp=hp
     
-  
+  #def recibir_daño(n):
+    #self.hp+=-n
+      
+      
   #def daño
 
 class Héroe(Personaje):
 
-  def __init__(self, nombre=None, hp=36, stats=None):
+  def __init__(self, nombre=None, hp=100, stats=None):
     Personaje.__init__(self, nombre, hp)
     self.nombre = df_héroes.Nombre[n] if nombre is None else nombre
     self.stats={
+                "HP": df_héroes.HP[n],
                 "Carisma": df_héroes.Carisma[n],
                 "Inteligencia":df_héroes.Inteligencia[n],
                 "Energía": df_héroes.Energía[n],
                 "Dinero": df_héroes.Dinero[n],
                 "Nivel": df_héroes.Nivel[n],
+                
                 } if stats is None else stats
     
     self.skills = []
@@ -184,6 +194,10 @@ class Héroe(Personaje):
     keys_p_equip = ["Ítem", "Puntos", "Cansancio Aliviado"]
     dic_pas_equip = {key: value for key, value in zip(keys_p_equip, values_equip)}
     self.pas_equip_skills = pd.DataFrame(dic_pas_equip)
+    
+  def recibir_ataque(self,num):
+      print(f"El villano usó:{ataques_villanos[num]}")
+      self.stats["HP"]+=-1*int(dic_ataques["Daño"][num])
 
   def get_actskill(self, num_lista):
     print(f"Has obtenido la habilidad {df_skills_act.loc[num_lista,'Habilidad']}.")
@@ -197,23 +211,23 @@ class Héroe(Personaje):
   
   def get_actequip(self, num_lista):
     self.skills.append(df_skills_act.loc[num_lista,'Habilidad'])
-    self.act_equip_skills = self.act_skills.append(df_skills_act.loc[num_lista], ignore_index=True, sort=False)    
+    self.act_equip_skills = self.act_equip_skills.append(df_skills_act.loc[num_lista], ignore_index=True, sort=False)    
 
   def get_pasequip(self, num_lista):
     self.skills.append(df_skills_pas.loc[num_lista,'Ítem'])
-    self.pas_equip_skills = self.pas_skills.append(df_skills_pas.loc[num_lista], ignore_index=True, sort=False)  
+    self.pas_equip_skills = self.pas_equip_skills.append(df_skills_pas.loc[num_lista], ignore_index=True, sort=False)  
   
   def equip_actskill(self):
     print("Selecciona las habilidades que deseas equipar.\nPara eso, ingresa el número de lista de la habilidad.")
     for i in range(6):
         n=int(input(f"Ingrese la {i+1}ra habilidad:"))
-        self.get_equip(n)
+        self.get_actequip(n)
    
   def equip_passkill(self):
     print("Selecciona las pasivas habilidades que deseas equipar.\nPara eso, ingresa el número de lista de la habilidad.")
     for i in range(2):
         n=int(input(f"Ingrese la {i+1}ra habilidad:"))
-        self.get_equip(n)
+        self.get_pasequip(n)
 
   def cansancio(self,fatigue):
     self.cm+=fatigue
@@ -435,6 +449,13 @@ while play:
     player.equip_actskill()
     print("##Las habilidades que seleccionaste son##")
     print(player.act_equip_skills)
+    print("_______________________________________________")
+    print("-------------COMIENZA LA BATALLA---------------")
+    print("-----------------------------------------------")
+    while(player.stats["HP"]>0):
+        print(f"TIENE {player.stats['HP']} de HP")
+        xd= np.random.random_integers(0,4)
+        player.recibir_ataque(xd)
     
 
     
